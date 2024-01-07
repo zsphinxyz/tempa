@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import ClientProvider from './components/ClientProvider'
+import Nav from './components/Nav'
 
 export const metadata: Metadata = {
   title: 'Tempa',
@@ -15,7 +16,10 @@ export default function RootLayout({
   return (
     <ClientProvider>
       <html lang="en">
-        <body className='max-w-7xl mx-auto'>{children}</body>
+        <body className='max-w-7xl mx-auto'>
+          <Nav />
+          {children}
+        </body>
       </html>
     </ClientProvider>
   )
