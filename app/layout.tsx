@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import ClientProvider from './components/ClientProvider'
-import Nav from './components/Nav'
+import ClientProvider from '../components/ClientProvider'
+import Nav from '../components/Nav'
+import FirebaseProvider from '../components/FirebaseProvider'
 
 export const metadata: Metadata = {
   title: 'Tempa',
@@ -17,8 +18,10 @@ export default function RootLayout({
     <ClientProvider>
       <html lang="en">
         <body className='max-w-7xl mx-auto'>
-          <Nav />
-          {children}
+          <FirebaseProvider>
+            <Nav />
+            {children}
+          </FirebaseProvider>
         </body>
       </html>
     </ClientProvider>

@@ -1,9 +1,9 @@
-import LoginBtn from './components/LoginBtn'
+import LoginBtn from '../components/LoginBtn'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/option'
 import Image from 'next/image'
 import Link from 'next/link'
-import Nav from './components/Nav'
+import Nav from '../components/Nav'
 
 export default async function Home() {
   const session = await getServerSession(authOptions)
