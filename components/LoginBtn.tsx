@@ -8,6 +8,8 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import {collection, addDoc, setDoc, doc} from 'firebase/firestore'
 import { db } from "@/firebase"
+import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
 const LoginBtn = ({session, className}:{session:Session | null, className?:string}) => {
   const [profileClick, setProfileClick] = useState(false);
@@ -36,8 +38,6 @@ const LoginBtn = ({session, className}:{session:Session | null, className?:strin
 
   const login = () => {
       signIn();
-
-
   }
 
   const logout = () => {
@@ -56,37 +56,33 @@ const LoginBtn = ({session, className}:{session:Session | null, className?:strin
         Login
         </button>
         :
-        <div className={`${className} relative`}>
-          <Image 
-            src={session?.user?.image!} 
-            alt='profile' 
-            width={40} 
-            height={40} 
-            className="rounded-full border-2 mr-5 md:mr-14 border-slate-200 cursor-pointer" 
-            onClick={() => {setProfileClick(!profileClick)}}
-            
-          />
-          <ul 
-            className={`absolute right-0 top-12 bg-color1 w-32 flex gap-3 flex-col text-center pb-2 rounded-b-md shadow-lg text-black shadow-neutral-400 ${!profileClick && 'hidden'}`}
-          >
-            <Link href="/user" className="hover:bg-blue-500 hover:text-white transition"><li className="py-1 text-lg">Profile</li></Link>
-            <Link href="/#" className="hover:bg-blue-500 hover:text-white transition"><li className="py-1 text-lg">About</li></Link>
-            <Link href="/#" className="hover:bg-blue-500 hover:text-white transition"><li className="py-1 text-lg">Contact</li></Link>
-            <Link href="/#" className="hover:bg-blue-500 hover:text-white transition"><li className="py-1 text-lg">Setting</li></Link>
-            <Link href="#" className="hover:bg-blue-500 hover:text-white transition"><li className="py-1 text-lg">Security</li></Link>
-            <Link href="/" className="hover:bg-blue-500 hover:text-white transition"><li className="py-1 text-lg" onClick={()=> logout()}>Log Out</li></Link>
-          </ul>
+            <DropdownMenu >
+              <DropdownMenuTrigger>
+                  <Avatar>
+                    <AvatarImage src={session.user.image!}
+                      alt={session.user.name!}
+                      width={40} height={40} 
+                      className="rounded-full border-2 border-muted-foreground cursor-pointer mr-5"
+                    />
+                    <AvatarFallback className="w-[40px] flex items-center justify-center font-bold text-xl h-[40px] bg-background rounded-full cursor-pointer mr-5 border-2">{session.user.name[0]}</AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
 
-          {/* <button
-              className={`text-bold bg-green-500 text-white px-3 py-1 rounded-lg hover:bg-green-600 `}
-              onClick={() => signOut()}
-          >
-          Log Out
-          </button> */}
+              <DropdownMenuContent>
+                  <DropdownMenuLabel>Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
 
-        </div>
-    }
-
+                  <DropdownMenuGroup  className="space-y-3 cursor-default">
+                    <DropdownMenuItem><Link href="/profile">Profile</Link></DropdownMenuItem>
+                    <DropdownMenuItem><Link href="#">About</Link></DropdownMenuItem>
+                    <DropdownMenuItem><Link href="#">Setting</Link></DropdownMenuItem>
+                    <DropdownMenuItem>
+                    <Link href="/" onClick={()=> logout()}>Log Out</Link>
+                    </DropdownMenuItem>
+                  </DropdownMenuGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
+    }    
     </>
   )
 

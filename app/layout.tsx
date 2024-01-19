@@ -3,6 +3,7 @@ import './globals.css'
 import ClientProvider from '../components/ClientProvider'
 import Nav from '../components/Nav'
 import FirebaseProvider from '../components/FirebaseProvider'
+import { ThemeProvider } from '@/components/ThemeProvider'
 
 export const metadata: Metadata = {
   title: 'Tempa',
@@ -16,11 +17,18 @@ export default function RootLayout({
 }) {
   return (
     <ClientProvider>
-      <html lang="en">
-        <body className='max-w-7xl mx-auto'>
+      <html lang="en" suppressHydrationWarning>
+        <body className=''>
           <FirebaseProvider>
-            <Nav />
-            {children}
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+                <Nav />
+                {children}
+            </ThemeProvider>
           </FirebaseProvider>
         </body>
       </html>
