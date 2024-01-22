@@ -33,11 +33,13 @@ import {
     SelectTrigger,
     SelectValue,
   } from "@/components/ui/select"
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import Tags from "./Tags"
 import { doc, getDoc, setDoc } from "firebase/firestore"
 import { db } from "@/firebase"
 import { useRouter } from "next/navigation"
+import DropImg from "./DropImg"
+import { DocumentData } from "firebase-admin/firestore"
 
 // ----------------------------------------------------------------------------------------------
 
@@ -54,7 +56,7 @@ const formSchema = z.object({
 
 export default function EditForm({session, temp}:{session:any, temp:any}) {
     const router = useRouter()
-    const [userData, setUserData] = useState<any>({})
+    const [userData, setUserData] = useState<DocumentData>({})
     // console.log('userdata', userData)
     // console.log('temp', temp)
 
@@ -62,12 +64,12 @@ export default function EditForm({session, temp}:{session:any, temp:any}) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: temp.name || session.user.name || '',
-      email: temp.email || session.user.email || '',
-      dob: temp.dob,
-      gender: temp.gender,
-      phone: temp.phone,
-      tag: temp.tag
+      name: temp && temp.name || session.user.name || '',
+      email: temp && temp.email || session.user.email || '',
+      dob: temp && temp.dob,
+      gender: temp && temp.gender,
+      phone: temp && temp.phone,
+      tag: temp && temp.tag
     },
   })
  
@@ -108,6 +110,7 @@ export default function EditForm({session, temp}:{session:any, temp:any}) {
 }
 
   return (
+    <Suspense fallback={<h1 className="text-5xl text-center font-bold">Loading...</h1>}>
     <section>
       <Card className="max-w-[420px] mx-auto">
         <CardHeader>
@@ -132,6 +135,7 @@ export default function EditForm({session, temp}:{session:any, temp:any}) {
                   </FormItem>
                 )}
               />
+
               
               <FormField
                 control={form.control}
@@ -204,11 +208,13 @@ export default function EditForm({session, temp}:{session:any, temp:any}) {
               
             </form>
           </Form>
+          <DropImg />
         </CardContent>
 
         <CardFooter>Footer</CardFooter>
       </Card>
     </section>
+    </Suspense>
     
   )
 }

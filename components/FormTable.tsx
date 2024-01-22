@@ -30,8 +30,8 @@ import { DocumentData } from "firebase-admin/firestore";
 
 export default function FormTable({session}:{session:Session}) {
     const [userData, setUserData] = useState<DocumentData>({
-        name: '',
-        email: '',
+        name: session.user.name || '',
+        email: session.user.email || '',
         dob: '',
         gender: '',
         phone: '',
@@ -48,7 +48,7 @@ export default function FormTable({session}:{session:Session}) {
             setUserData(docSnap.data())
           } else {
             // docSnap.data() will be undefined in this case
-            // console.log("No such document!");
+            console.log("No such document!");
           }
     }
 
@@ -59,7 +59,7 @@ export default function FormTable({session}:{session:Session}) {
 
     return(
         <div className="my-5">
-            <Card>
+            <Card className="w-11/12 mx-auto">
                 <CardHeader>
                     <CardTitle>
                         <div className="flex gap-3 items-center justify-center sm:justify-normal flex-wrap">
@@ -99,7 +99,7 @@ export default function FormTable({session}:{session:Session}) {
                             </TableRow>
 
                             <TableRow>
-                                <TableCell>Bod</TableCell>
+                                <TableCell>Date of Birth</TableCell>
                                 <TableCell>{userData.dob}</TableCell>
                             </TableRow>
 
@@ -114,8 +114,8 @@ export default function FormTable({session}:{session:Session}) {
                             </TableRow>
 
                             <TableRow>
-                                <TableCell>tags</TableCell>
-                                <TableCell className="flex gap-1 flex-wrap">{userData.tag.split(',').map((i:any) => (<span key={i} className="bg-muted mr-2 rounded-full text-sm px-2 py-1">{i}</span>) )}</TableCell>
+                                <TableCell>Tags</TableCell>
+                                <TableCell className="flex gap-1 flex-wrap">{userData.tag && userData.tag.split(',').map((i:any) => (<span key={i} className="bg-muted mr-2 rounded-full text-sm px-2 py-1">{i}</span>) )}</TableCell>
                             </TableRow>
 
                         </TableBody>

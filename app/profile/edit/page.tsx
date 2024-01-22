@@ -25,7 +25,7 @@ export default async function Edit() {
   }
 
   const tempData = await readData();
-  console.log(tempData)
+  // console.log(tempData)
 
   return(
     <EditForm session={session} temp={tempData}/>

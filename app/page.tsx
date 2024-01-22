@@ -10,12 +10,14 @@ export default async function Home() {
   return (
     <main>
       {
-        session && (
-          <>
-            {/* <Image src={session.user?.image!} alt={session.user?.name!} width={100} height={100} priority className='rounded-full border-2 border-white'/> */}
-            {/* <Link href='/user'>Go To Profile Page</Link> */}
-          </>
-        )
+        session ? 
+        <>
+            Logged in
+        </>
+        :
+        <>
+          <div className='text-center bg-destructive text-muted-foreground text-white py-1 italic'>You are not currently logged in. To view to our exclusive contents logged in.</div>
+        </>
       }
     </main>
   )
