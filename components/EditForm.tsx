@@ -97,7 +97,7 @@ export default function EditForm({session, temp}:{session:any, temp:any}) {
 
   useEffect( () => {
       readData();
-  }, [])
+  }, [userData])
 
 
   const saveToDb = async (values:any) => {

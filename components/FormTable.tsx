@@ -54,7 +54,7 @@ export default function FormTable({session}:{session:Session}) {
 
     useEffect( () => {
         updataData();
-    }, [])
+    }, [userData])
 
 
     return(

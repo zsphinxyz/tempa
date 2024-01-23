@@ -14,8 +14,8 @@ import {
 
 
 export default async function Home() {
-  let posts:any = []
-  const session = await getServerSession(authOptions)
+  let posts:any = [];
+  const session = await getServerSession(authOptions);
 
   const querySnapshot = await getDocs(query(collection(db, 'posts'), orderBy('createdAt', 'desc')));
   querySnapshot.forEach( (doc) => {
@@ -28,9 +28,9 @@ export default async function Home() {
         session ? 
         <>
 
-          <main className='flex gap-5 flex-col w-5/6 mx-auto '>
+          <section className='flex gap-5 flex-col w-5/6 mx-auto '>
             {
-              posts.map( (post:any, i:number) => (
+              posts.map((post:any, i:number) => (
                 <Card key={i}>
                   <CardHeader>
                     <CardTitle>{post.header}</CardTitle>
@@ -45,7 +45,7 @@ export default async function Home() {
                 </Card>
               ))
             }
-          </main>
+          </section>
 
         </>
         :
