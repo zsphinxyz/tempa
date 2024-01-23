@@ -31,18 +31,20 @@ export default async function Home() {
           <section className='flex gap-5 flex-col w-5/6 mx-auto '>
             {
               posts.map((post:any, i:number) => (
-                <Card key={i}>
-                  <CardHeader>
-                    <CardTitle>{post.header}</CardTitle>
-                    <CardDescription>{post.createdAt.toDate().toDateString()}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <p>{post.desc}</p>
-                  </CardContent>
-                  <CardFooter>
-                    <p>by {post.by}</p>
-                  </CardFooter>
+                <div key={i}>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>{post.header}</CardTitle>
+                      <CardDescription>{post.createdAt.toDate().toDateString()}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <p>{post.desc}</p>
+                    </CardContent>
+                    <CardFooter>
+                      <p>by {post.by}</p>
+                    </CardFooter>
                 </Card>
+                </div>
               ))
             }
           </section>
