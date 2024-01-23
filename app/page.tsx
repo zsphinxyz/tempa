@@ -31,7 +31,7 @@ export default async function Home() {
           <main className='flex gap-5 flex-col w-5/6 mx-auto '>
             {
               posts.map( (post:any, i:number) => (
-                <Card>
+                <Card key={i}>
                   <CardHeader>
                     <CardTitle>{post.header}</CardTitle>
                     <CardDescription>{post.createdAt.toDate().toDateString()}</CardDescription>

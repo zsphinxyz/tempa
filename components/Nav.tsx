@@ -16,6 +16,10 @@ const Nav = async() => {
             <div className="flex items-center gap-3 px-10">
                 <ModeToggle />
                 <LoginBtn session={session} />
+                {
+                    session && <Link href="/create" className="bg-muted px-2 rounded-md py-2 hover:bg-muted-foreground"> + Create </Link>
+
+                }
             </div>
         </nav>
     )

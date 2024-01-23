@@ -68,7 +68,7 @@ export default function CreateForm({session}:any) {
         </CardContent>
 
         <CardFooter>
-            <p>{post.header} | {post.desc} | {post.isPublic && 'true'}</p>
+            <p>Your post is set to <i>{post.isPublic ? 'Public' : 'Private'}</i></p>
         </CardFooter>
     </Card>
     )
