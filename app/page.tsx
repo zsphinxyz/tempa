@@ -31,7 +31,6 @@ export default async function Home() {
           <section className='flex gap-5 flex-col w-5/6 mx-auto '>
             {
               posts.map((post:any, i:number) => (
-                <div key={i}>
                   <Card>
                     <CardHeader>
                       <CardTitle>{post.header}</CardTitle>
@@ -43,8 +42,7 @@ export default async function Home() {
                     <CardFooter>
                       <p>by {post.by}</p>
                     </CardFooter>
-                </Card>
-                </div>
+                  </Card>
               ))
             }
           </section>
@@ -55,13 +53,20 @@ export default async function Home() {
           <section className='flex gap-5 flex-col w-5/6 mx-auto '>
             <div className='text-center bg-destructive text-muted-foreground text-white py-1 mb-5 italic'>Login to view exclusive contents and to post in our platform</div>
             {
-              posts.map( (post:any) => (
+              posts.map( (post:any, i:number) => (
                 post.isPublic ?
-                  <div className='border border-muted-foreground w-full p-2 rounded-md'>
-                    <h1>{post.header}</h1>
-                    <h1>{post.desc}</h1>
-                    <h1>by {post.by}</h1>
-                  </div>
+                  <Card key={i}>
+                    <CardHeader>
+                      <CardTitle>{post.header}</CardTitle>
+                      <CardDescription>{post.createdAt.toDate().toDateString()}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <p>{post.desc}</p>
+                    </CardContent>
+                    <CardFooter>
+                      <p>by {post.by}</p>
+                    </CardFooter>
+                  </Card>
                 :
                 null
               ))
