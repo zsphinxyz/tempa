@@ -13,7 +13,7 @@ const Nav = async() => {
                 <SiTemporal className="text-4xl font-extrabold text-foreground ml-10" /> 
                 <h1 className="text-foreground text-3xl font-mono font-bold">Tempa</h1>
             </Link>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 px-10">
                 <ModeToggle />
                 <LoginBtn session={session} />
             </div>

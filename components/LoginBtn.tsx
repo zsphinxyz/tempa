@@ -62,7 +62,7 @@ const LoginBtn = ({session, className}:{session:Session | null, className?:strin
                     <AvatarImage src={session.user.image!}
                       alt={session.user.name!}
                       width={40} height={40} 
-                      className="rounded-full border-2 border-muted-foreground cursor-pointer mr-5"
+                      className="rounded-full border-2 border-muted-foreground cursor-pointer"
                     />
                     <AvatarFallback className="w-[40px] flex items-center justify-center font-bold text-xl h-[40px] bg-background rounded-full cursor-pointer mr-5 border-2">{session.user.name[0]}</AvatarFallback>
                 </Avatar>
