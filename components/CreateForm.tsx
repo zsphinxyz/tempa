@@ -43,6 +43,7 @@ export default function CreateForm({session}:any) {
         SaveToDb(post)
         router.push('/')
     }
+
     
     return(
         <Card className="w-9/12 mx-auto">

@@ -4,6 +4,9 @@ import { db } from "@/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { Session } from "next-auth";
 import { useEffect, useState } from "react";
+import { FaCalendar, FaQuestion } from "react-icons/fa";
+import { MdMail } from "react-icons/md";
+import { IoMdFemale, IoMdMale, IoMdCall } from "react-icons/io";
 
 import {
     Card,
@@ -61,30 +64,53 @@ export default function FormTable({session}:{session:Session}) {
         <div className="my-5">
             <Card className="w-11/12 mx-auto">
                 <CardHeader>
-                    <CardTitle>
+                    <CardTitle className="mb-3">
                         <div className="flex gap-3 items-center justify-center sm:justify-normal flex-wrap">
-                            <Avatar>
-                            <AvatarImage src={session.user.image!}
-                            alt={session.user.name!}
-                            width={100} height={100} 
-                            className="border-muted-foreground rounded-md block"
-                            />
-                            <AvatarFallback className="w-[40px] flex items-center justify-center font-bold text-xl h-[40px] bg-background">{session.user.name[0]}</AvatarFallback>
+                            <Avatar className="relative">
+                                <AvatarImage src={session.user.image!}
+                                alt={session.user.name!}
+                                width={100} height={100} 
+                                className="border-muted-foreground rounded-full block"
+                                />
+                                <div className="absolute bottom-0 right-0 bg-foreground rounded-full w-7 h-7 flex items-center justify-center">
+                                    {
+                                        userData.gender == 'male' ?
+                                            <IoMdMale className="text-2xl inline text-green-500" /> :
+                                        userData.gender = 'female' ?
+                                            <IoMdFemale className="text-2xl inline text-rose-500" /> :
+                                            <FaQuestion className="text-2xl inline " /> 
+                                    }
+                                </div>
+                                <AvatarFallback className="w-[40px] flex items-center justify-center font-bold text-xl h-[40px] bg-background">{session.user.name[0]}</AvatarFallback>
                             </Avatar>
 
                             <div className="space-y-2">
-                                <p className="text-primary text-xl sm:text-3xl font-bold">{session.user.name}</p>
-                                <p className="text-muted-foreground text-[16px] sm:text-lg font-normal">{session.user.email}</p>
+                                <p className="text-primary text-xl sm:text-3xl font-bold">
+                                    {userData.name || session.user.name}
+                                    <span className="text-muted-foreground/90 text-lg"> @{session.user.name} </span>
+                                </p>
+                                <p className="text-muted-foreground text-[16px] sm:text-lg font-normal">
+                                        <MdMail className="inline ml-2 mr-1" />{userData.mail || session.user.email}    
+                                </p>
+                                <p className="text-muted-foreground text-[16px] sm:text-lg font-normal">         
+                                    <FaCalendar className="inline ml-2 mr-1" />{userData.dob} •
+                                    {
+                                        userData.phone &&
+                                       <><IoMdCall className="inline ml-3 "/> {userData.phone}</> 
+                                    }
+                                </p>
                             </div>
                         </div>
                     </CardTitle>
 
                     <CardDescription className="text-lg">
-                        Bio
+                    {userData.tag && userData.tag.split(',').map((i:any) => (<span key={i} className="bg-muted mr-2 rounded-full text-sm px-2 py-1">{i}</span>) )}
+                    <Button variant="ghost" onClick={() => router.push('/profile/edit')} className="block w-full my-2 text-center mx-auto bg-muted-foreground/10">Edit Profile</Button>
+                    
                     </CardDescription>
                 </CardHeader>
 
-                <CardContent>
+                {/* <CardContent>
                     <Table className="w-fit text-[16px] md:text-lg">
 
                         <TableBody>
@@ -120,10 +146,14 @@ export default function FormTable({session}:{session:Session}) {
 
                         </TableBody>
                     </Table>
+                </CardContent> */}
+
+                <CardContent>
+
                 </CardContent>
 
                 <CardFooter className="">
-                        <Button variant="default" onClick={() => router.push('/profile/edit')}>Edit</Button>
+                        {/* <Button variant="default" onClick={() => router.push('/profile/edit')}>Edit</Button> */}
                 </CardFooter>
             </Card>
 

@@ -33,7 +33,9 @@ export default async function Home() {
               posts.map((post:any, i:number) => (
                   <Card key={i}>
                     <CardHeader>
-                      <CardTitle>{post.header}</CardTitle>
+                      <CardTitle>
+                        {post.header}
+                      </CardTitle>
                       <CardDescription>{post.createdAt.toDate().toDateString()}</CardDescription>
                     </CardHeader>
                     <CardContent>
