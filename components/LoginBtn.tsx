@@ -74,8 +74,8 @@ const LoginBtn = ({session, className}:{session:Session | null, className?:strin
 
                   <DropdownMenuGroup  className="space-y-3 cursor-default">
                     <DropdownMenuItem><Link href="/profile">Profile</Link></DropdownMenuItem>
-                    <DropdownMenuItem><Link href="#">About</Link></DropdownMenuItem>
-                    <DropdownMenuItem><Link href="#">Setting</Link></DropdownMenuItem>
+                    <DropdownMenuItem disabled><Link href="#">About</Link></DropdownMenuItem>
+                    <DropdownMenuItem disabled><Link href="#">Setting</Link></DropdownMenuItem>
                     <DropdownMenuItem>
                     <Link href="/" onClick={()=> logout()}>Log Out</Link>
                     </DropdownMenuItem>
