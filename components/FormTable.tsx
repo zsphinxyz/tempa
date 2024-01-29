@@ -1,13 +1,22 @@
 "use client"
 
 import { db } from "@/firebase";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, orderBy, query, where } from "firebase/firestore";
 import { Session } from "next-auth";
 import { useEffect, useState } from "react";
 import { FaCalendar, FaQuestion } from "react-icons/fa";
 import { MdMail } from "react-icons/md";
 import { IoMdFemale, IoMdMale, IoMdCall } from "react-icons/io";
 
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+  } from "@/components/ui/dropdown-menu"
+  
 import {
     Card,
     CardContent,
@@ -16,7 +25,6 @@ import {
     CardHeader,
     CardTitle,
   } from "@/components/ui/card"
-  
   import {
     Table,
     TableBody,
@@ -30,6 +38,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 import { DocumentData } from "firebase-admin/firestore";
+import Link from "next/link";
 
 export default function FormTable({session}:{session:Session}) {
     const [userData, setUserData] = useState<DocumentData>({
@@ -40,9 +49,22 @@ export default function FormTable({session}:{session:Session}) {
         phone: '',
         tag: '',
     })
+    // , 
     const router = useRouter()
 
-    const updataData =async () => {
+    const [posts, setPosts] = useState<any>()
+    const getData = async () => {
+        let posts:any = []
+        const querySnapshot = await getDocs(query(collection(db, 'posts'), orderBy('createdAt', 'desc'), where('by', '==', userData.name)));
+        querySnapshot.forEach( (doc) => {
+            posts.push(doc.data())
+        })
+        setPosts(posts)
+    }
+
+    console.log(posts)
+
+    const updataData = async () => {
         const docRef = doc(db, 'profile', session.user.id)
         const docSnap = await getDoc(docRef)
 
@@ -56,9 +78,9 @@ export default function FormTable({session}:{session:Session}) {
     }
 
     useEffect( () => {
+        getData();
         updataData();
-    }, [userData])
-
+    }, [])
 
     return(
         <div className="my-5">
@@ -72,16 +94,16 @@ export default function FormTable({session}:{session:Session}) {
                                 width={100} height={100} 
                                 className="border-muted-foreground rounded-full block"
                                 />
-                                <div className="absolute bottom-0 right-0 bg-foreground rounded-full w-7 h-7 flex items-center justify-center">
+                                <AvatarFallback className="w-[40px] flex items-center justify-center font-bold text-xl h-[40px] bg-background">{session.user.name[0]}</AvatarFallback>
+                                <div className="absolute bottom-0 right-0 bg-white border border-foreground rounded-full w-7 h-7 flex items-center justify-center">
                                     {
                                         userData.gender == 'male' ?
                                             <IoMdMale className="text-2xl inline text-green-500" /> :
                                         userData.gender = 'female' ?
-                                            <IoMdFemale className="text-2xl inline text-rose-500" /> :
+                                            <IoMdFemale className="text-2xl inline text-green-500" /> :
                                             <FaQuestion className="text-2xl inline " /> 
                                     }
                                 </div>
-                                <AvatarFallback className="w-[40px] flex items-center justify-center font-bold text-xl h-[40px] bg-background">{session.user.name[0]}</AvatarFallback>
                             </Avatar>
 
                             <div className="space-y-2">
@@ -104,52 +126,38 @@ export default function FormTable({session}:{session:Session}) {
                     </CardTitle>
 
                     <CardDescription className="text-lg">
-                    {userData.tag && userData.tag.split(',').map((i:any) => (<span key={i} className="bg-muted mr-2 rounded-full text-sm px-2 py-1">{i}</span>) )}
+                    {userData.tag && userData.tag.split(',').map((i:any) => (<span key={i} className="bg-muted hover:bg-muted-foreground/30 transition cursor-default mr-2 rounded-full text-sm px-2 py-1">{i}</span>) )}
                     <Button variant="ghost" onClick={() => router.push('/profile/edit')} className="block w-full my-2 text-center mx-auto bg-muted-foreground/10">Edit Profile</Button>
                     
                     </CardDescription>
                 </CardHeader>
 
-                {/* <CardContent>
-                    <Table className="w-fit text-[16px] md:text-lg">
-
-                        <TableBody>
-                            <TableRow>
-                                <TableCell>Name</TableCell>
-                                <TableCell>{userData.name}</TableCell>
-                            </TableRow>
-
-                            <TableRow>
-                                <TableCell>Email</TableCell>
-                                <TableCell>{userData.email}</TableCell>
-                            </TableRow>
-
-                            <TableRow>
-                                <TableCell>Date of Birth</TableCell>
-                                <TableCell>{userData.dob}</TableCell>
-                            </TableRow>
-
-                            <TableRow>
-                                <TableCell>Gender</TableCell>
-                                <TableCell>{userData.gender}</TableCell>
-                            </TableRow>
-
-                            <TableRow>
-                                <TableCell>Phone</TableCell>
-                                <TableCell>{userData.phone}</TableCell>
-                            </TableRow>
-
-                            <TableRow>
-                                <TableCell>Tags</TableCell>
-                                <TableCell className="flex gap-1 flex-wrap">{userData.tag && userData.tag.split(',').map((i:any) => (<span key={i} className="bg-muted mr-2 rounded-full text-sm px-2 py-1">{i}</span>) )}</TableCell>
-                            </TableRow>
-
-                        </TableBody>
-                    </Table>
-                </CardContent> */}
-
                 <CardContent>
-
+                    { posts && 
+                        posts.map((post: any, i: number) => (
+                            <Card key={i} className="my-2 hover:bg-muted/20 active:bg-muted/50">
+                                <CardHeader>
+                                    <CardTitle className="flex justify-between">
+                                        {post.header}
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger>...</DropdownMenuTrigger>
+                                                <DropdownMenuContent>
+                                                    <DropdownMenuItem><Link href='/edit'>Edit</Link></DropdownMenuItem>
+                                                    <DropdownMenuItem>Delete</DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+                                    </CardTitle>
+                                    <CardDescription>{post.createdAt.toDate().toDateString()}</CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <p>{post.desc}</p>
+                                </CardContent>
+                                <CardFooter>
+                                    <p>by {post.by}</p>
+                                </CardFooter>
+                            </Card>
+                        ))
+                    }   
                 </CardContent>
 
                 <CardFooter className="">

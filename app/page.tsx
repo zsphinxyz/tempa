@@ -19,7 +19,7 @@ export default async function Home() {
 
   const querySnapshot = await getDocs(query(collection(db, 'posts'), orderBy('createdAt', 'desc')));
   querySnapshot.forEach( (doc) => {
-      posts.push(doc.data())
+    posts.push(doc.data())
   })
 
   return (
@@ -31,7 +31,7 @@ export default async function Home() {
           <section className='flex gap-5 flex-col w-5/6 mx-auto '>
             {
               posts.map((post:any, i:number) => (
-                  <Card key={i}>
+                  <Card key={i}  className="hover:bg-muted/20 active:bg-muted/50">
                     <CardHeader>
                       <CardTitle>
                         {post.header}
