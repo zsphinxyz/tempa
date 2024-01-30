@@ -11,6 +11,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { FaGlobeAmericas } from 'react-icons/fa'
+import { MdPeople } from 'react-icons/md'
 
 
 export default async function Home() {
@@ -31,15 +33,18 @@ export default async function Home() {
           <section className='flex gap-5 flex-col w-5/6 mx-auto '>
             {
               posts.map((post:any, i:number) => (
-                  <Card key={i}  className="hover:bg-muted/20 active:bg-muted/50">
+                  <Card key={i} className="hover:bg-muted/20 active:bg-muted/50">
                     <CardHeader>
                       <CardTitle>
                         {post.header}
                       </CardTitle>
-                      <CardDescription>{post.createdAt.toDate().toDateString()}</CardDescription>
+                      <CardDescription>
+                        {post.createdAt.toDate().toDateString()}
+                        {post.isPublic ? <FaGlobeAmericas className="inline ml-2"/>: <MdPeople className="inline ml-2"/>}
+                      </CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <p>{post.desc}</p>
+                      <p className='tracking-tight leading-tight'>{post.desc}</p>
                     </CardContent>
                     <CardFooter>
                       <p>by {post.by}</p>
@@ -57,13 +62,16 @@ export default async function Home() {
             {
               posts.map( (post:any, i:number) => (
                 post.isPublic ?
-                  <Card key={i}>
+                  <Card key={i} className="hover:bg-muted/20 active:bg-muted/50">
                     <CardHeader>
                       <CardTitle>{post.header}</CardTitle>
-                      <CardDescription>{post.createdAt.toDate().toDateString()}</CardDescription>
+                      <CardDescription>
+                        {post.createdAt.toDate().toDateString()}
+                        <FaGlobeAmericas className="inline ml-2"/>
+                      </CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <p>{post.desc}</p>
+                      <p className='tracking-tight leading-tight'>{post.desc}</p>
                     </CardContent>
                     <CardFooter>
                       <p>by {post.by}</p>

@@ -4,8 +4,8 @@ import { db } from "@/firebase";
 import { collection, doc, getDoc, getDocs, orderBy, query, where } from "firebase/firestore";
 import { Session } from "next-auth";
 import { useEffect, useState } from "react";
-import { FaCalendar, FaQuestion } from "react-icons/fa";
-import { MdMail } from "react-icons/md";
+import { FaCalendar, FaGlobeAmericas, FaQuestion } from "react-icons/fa";
+import { MdMail, MdPeople } from "react-icons/md";
 import { IoMdFemale, IoMdMale, IoMdCall } from "react-icons/io";
 
 import {
@@ -147,10 +147,13 @@ export default function FormTable({session}:{session:Session}) {
                                                 </DropdownMenuContent>
                                             </DropdownMenu>
                                     </CardTitle>
-                                    <CardDescription>{post.createdAt.toDate().toDateString()}</CardDescription>
+                                    <CardDescription>
+                                        {post.createdAt.toDate().toDateString()}
+                                        {post.isPublic ? <FaGlobeAmericas className="inline ml-2"/>: <MdPeople className="inline ml-2"/>}
+                                    </CardDescription>
                                 </CardHeader>
                                 <CardContent>
-                                    <p>{post.desc}</p>
+                                    <p className='tracking-tight leading-tight'>{post.desc}</p>
                                 </CardContent>
                                 <CardFooter>
                                     <p>by {post.by}</p>
