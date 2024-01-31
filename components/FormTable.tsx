@@ -153,10 +153,14 @@ export default function FormTable({session}:{session:Session}) {
                                             <DropdownMenu>
                                                 <DropdownMenuTrigger>...</DropdownMenuTrigger>
                                                 <DropdownMenuContent>
-                                                    <DropdownMenuItem><Link href='/edit'>Edit</Link></DropdownMenuItem>
-                                                    
                                                     {/* <DropdownMenuItem> */}
-                                                        <div className="px-2 text-[14px] hover:bg-muted">
+                                                    <div className="px-2 text-[14px] hover:bg-muted py-1 rounded-sm mb-2">
+                                                        <Link href={`/edit/${post.id}`}>Edit</Link>
+                                                    </div>
+                                                    {/* </DropdownMenuItem> */}
+                                                    
+                                                    {/* <DropdownMenuItem asChild> */}
+                                                        <div className="px-2 text-[14px] hover:bg-muted py-1 rounded-sm">
                                                         <AlertDialog>
                                                             <AlertDialogTrigger>Delete</AlertDialogTrigger>
                                                             <AlertDialogContent>

@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from "@/components/ui/button"
-import { collection, addDoc, Timestamp, orderBy } from "firebase/firestore"; 
+import { Timestamp, setDoc, doc } from "firebase/firestore"; 
 import {
     Card,
     CardContent,
@@ -18,34 +18,32 @@ import { useState } from "react";
 import { DocumentData } from "firebase-admin/firestore";
 import { useRouter } from "next/navigation";
 
-async function SaveToDb({postdata}: DocumentData) {
-try {
-  const docRef = await addDoc(collection(db, "posts"),postdata);
-  console.log("Document written with ID: ", docRef.id);
-} catch (e) {
-  console.error("Error adding document: ", e);
-}
-}
-
-export default function CreateForm({session}:any) {
+// @ts-ignore 
+export default function EditPost({id, header, desc, isPublic}) {
     const [post, setPost] = useState<DocumentData>({
-        header: '',
-        desc: '',
-        isPublic: false,
-        
-        //defaults
-        by: session.user.name,
-        bymail: session.user.email,
+        header: header,
+        desc: desc,
+        isPublic: isPublic ? true : false,
+        bymail: 'mydummymail.56@gmail.com',
+        by: 'D Mail',
         createdAt: Timestamp.now(),
     })
     const router = useRouter()
+    
+    async function SaveToDb() {
+        try {
+            await setDoc(doc(db, "posts", id), post, {merge: true});
+            router.refresh();
+        } catch (e) {
+            console.error("Error adding document: ", e);
+        }
+    }
 
     const handleSubmit = () => {
-        SaveToDb(post)
+        SaveToDb()
         router.push('/profile')
     }
 
-    
     return(
         <Card className="w-9/12 mx-auto">
 
@@ -56,13 +54,13 @@ export default function CreateForm({session}:any) {
 
         <CardContent>
             <Label htmlFor="header">Header</Label>
-            <Input placeholder="Enter your Header..." id="header"  autoFocus={true} className="mb-5" onChange={(e) => setPost( pre => ({...pre, header:e.target.value}) ) } />
+            <Input placeholder="Enter your Header..." id="header" defaultValue={post.header}  autoFocus={true} className="mb-5" onChange={(e) => setPost( pre => ({...pre, header:e.target.value}) ) } />
 
             <Label htmlFor="content">Content</Label>
-            <Textarea placeholder="Enter your Content..." id="content"  onChange={ e => setPost( pre => ({...pre, desc: e.target.value}) ) }/>
+            <Textarea placeholder="Enter your Content..." id="content" defaultValue={post.desc}  onChange={ e => setPost( pre => ({...pre, desc: e.target.value}) ) }/>
 
             <div className="flex items-center mt-5 gap-2">
-                <Input type="checkbox" id="public" onChange={(e) => setPost( pre => ({...pre, isPublic: e.target.checked}) )} className="w-4 h-4"/>
+                <Input type="checkbox" id="public" defaultChecked={post.isPublic} onChange={(e) => setPost( pre => ({...pre, isPublic: e.target.checked}) )} className="w-4 h-4"/>
                 <Label htmlFor="public" className="text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">public</Label>
             </div>
             

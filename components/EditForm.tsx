@@ -38,7 +38,7 @@ import Tags from "./Tags"
 import { doc, getDoc, setDoc } from "firebase/firestore"
 import { db } from "@/firebase"
 import { useRouter } from "next/navigation"
-import DropImg from "./DropImg"
+// import DropImg from "./DropImg"
 import { DocumentData } from "firebase-admin/firestore"
 
 // ----------------------------------------------------------------------------------------------
@@ -115,7 +115,7 @@ export default function EditForm({session, temp}:{session:any, temp:any}) {
       <Card className="max-w-[420px] mx-auto">
         <CardHeader>
           <CardTitle>Edit Your Profile</CardTitle>
-          <CardDescription>We prefer you to add accurately because the employers will choose candidates according to your profile.</CardDescription>
+          <CardDescription>The place where you edit your personal profile.</CardDescription>
         </CardHeader>
 
         <CardContent>
@@ -208,10 +208,10 @@ export default function EditForm({session, temp}:{session:any, temp:any}) {
               
             </form>
           </Form>
-          <DropImg />
+          {/* <DropImg /> */}
         </CardContent>
 
-        <CardFooter>Footer</CardFooter>
+        <CardFooter>Click submit to save your data</CardFooter>
       </Card>
     </section>
     </Suspense>
