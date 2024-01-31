@@ -20,7 +20,7 @@ import { useRouter } from "next/navigation";
 
 async function SaveToDb(postdata: DocumentData) {
 try {
-  const docRef = await addDoc(collection(db, "posts"), postdata);
+  const docRef = await addDoc(collection(db, "posts"),postdata);
   console.log("Document written with ID: ", docRef.id);
 } catch (e) {
   console.error("Error adding document: ", e);
@@ -35,13 +35,14 @@ export default function CreateForm({session}:any) {
         
         //defaults
         by: session.user.name,
-        createdAt: Timestamp.now()
+        bymail: session.user.email,
+        createdAt: Timestamp.now(),
     })
     const router = useRouter()
 
     const handleSubmit = () => {
         SaveToDb(post)
-        router.push('/')
+        router.push('/profile')
     }
 
     

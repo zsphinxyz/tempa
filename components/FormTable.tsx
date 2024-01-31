@@ -1,7 +1,7 @@
 "use client"
 
 import { db } from "@/firebase";
-import { collection, doc, getDoc, getDocs, orderBy, query, where } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, where } from "firebase/firestore";
 import { Session } from "next-auth";
 import { useEffect, useState } from "react";
 import { FaCalendar, FaGlobeAmericas, FaQuestion } from "react-icons/fa";
@@ -16,6 +16,18 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
+ 
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
   
 import {
     Card,
@@ -25,15 +37,7 @@ import {
     CardHeader,
     CardTitle,
   } from "@/components/ui/card"
-  import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-  } from "@/components/ui/table"
+
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
@@ -53,17 +57,19 @@ export default function FormTable({session}:{session:Session}) {
     const router = useRouter()
 
     const [posts, setPosts] = useState<any>()
+
+        //get data for posts 
     const getData = async () => {
         let posts:any = []
-        const querySnapshot = await getDocs(query(collection(db, 'posts'), orderBy('createdAt', 'desc'), where('by', '==', userData.name)));
+        const querySnapshot = await getDocs(query(collection(db, 'posts'), orderBy('createdAt', 'desc'), where('bymail', '==', userData.email)));
         querySnapshot.forEach( (doc) => {
-            posts.push(doc.data())
+            posts.push({...doc.data(), id:doc.id})
         })
         setPosts(posts)
     }
-
     console.log(posts)
 
+        // update data for user
     const updataData = async () => {
         const docRef = doc(db, 'profile', session.user.id)
         const docSnap = await getDoc(docRef)
@@ -75,6 +81,11 @@ export default function FormTable({session}:{session:Session}) {
             // docSnap.data() will be undefined in this case
             console.log("No such document!");
           }
+    }
+
+    const handleDbDelete = async (id:string) => {
+        await deleteDoc(doc(db, "posts", (id)))
+        await getData()
     }
 
     useEffect( () => {
@@ -143,7 +154,28 @@ export default function FormTable({session}:{session:Session}) {
                                                 <DropdownMenuTrigger>...</DropdownMenuTrigger>
                                                 <DropdownMenuContent>
                                                     <DropdownMenuItem><Link href='/edit'>Edit</Link></DropdownMenuItem>
-                                                    <DropdownMenuItem>Delete</DropdownMenuItem>
+                                                    
+                                                    {/* <DropdownMenuItem> */}
+                                                        <div className="px-2 text-[14px] hover:bg-muted">
+                                                        <AlertDialog>
+                                                            <AlertDialogTrigger>Delete</AlertDialogTrigger>
+                                                            <AlertDialogContent>
+                                                                <AlertDialogHeader>
+                                                                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                                                    <AlertDialogDescription>
+                                                                        This action cannot be undone. This will permanently delete this post
+                                                                        and remove from our database.
+                                                                    </AlertDialogDescription>
+                                                                </AlertDialogHeader>
+                                                                <AlertDialogFooter>
+                                                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                                    <AlertDialogAction onClick={() => handleDbDelete(post.id)}>Continue</AlertDialogAction>
+                                                                </AlertDialogFooter>
+                                                            </AlertDialogContent>
+                                                        </AlertDialog>
+                                                        </div>
+                                                    {/* </DropdownMenuItem> */}
+
                                                 </DropdownMenuContent>
                                             </DropdownMenu>
                                     </CardTitle>
