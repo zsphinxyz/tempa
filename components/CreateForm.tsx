@@ -18,15 +18,6 @@ import { useState } from "react";
 import { DocumentData } from "firebase-admin/firestore";
 import { useRouter } from "next/navigation";
 
-async function SaveToDb({postdata}: DocumentData) {
-try {
-  const docRef = await addDoc(collection(db, "posts"),postdata);
-  console.log("Document written with ID: ", docRef.id);
-} catch (e) {
-  console.error("Error adding document: ", e);
-}
-}
-
 export default function CreateForm({session}:any) {
     const [post, setPost] = useState<DocumentData>({
         header: '',
@@ -40,8 +31,17 @@ export default function CreateForm({session}:any) {
     })
     const router = useRouter()
 
+    async function SaveToDb() {
+        try {
+          const docRef = await addDoc(collection(db, "posts"),post);
+        //   console.log("Document written with ID: ", docRef.id);
+        } catch (e) {
+          console.error("Error adding document: ", e);
+        }
+    }
+
     const handleSubmit = () => {
-        SaveToDb(post)
+        SaveToDb()
         router.push('/profile')
     }
 
