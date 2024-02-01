@@ -116,7 +116,7 @@ export default function FormTable({session}:{session:Session}) {
                                         userData.gender == 'male' ?
                                             <IoMdMale className="text-2xl inline text-green-500" /> :
                                         userData.gender = 'female' ?
-                                            <IoMdFemale className="text-2xl inline text-green-500" /> :
+                                            <IoMdFemale className="text-2xl inline text-red-500" /> :
                                             <FaQuestion className="text-2xl inline " /> 
                                     }
                                 </div>
@@ -151,7 +151,7 @@ export default function FormTable({session}:{session:Session}) {
                 <CardContent>
                     { posts && 
                         posts.map((post: any, i: number) => (
-                            <Card key={i} className="my-2 hover:bg-muted/20 active:bg-muted/50">
+                            <Card key={i} className="my-2 hover:bg-muted/20 active:bg-muted/30">
                                 <CardHeader>
                                     <CardTitle className="flex justify-between">
                                         {post.header}
@@ -159,7 +159,7 @@ export default function FormTable({session}:{session:Session}) {
                                                 <DropdownMenuTrigger>...</DropdownMenuTrigger>
                                                 <DropdownMenuContent>
                                                     {/* <DropdownMenuItem> */}
-                                                    <div className="px-2 text-[14px] hover:bg-muted py-1 w-fullrounded-sm mb-2">
+                                                    <div className="px-2 text-[14px] hover:bg-muted py-1 w-full rounded-sm mb-2">
                                                         <Link href={`/edit/${post.id}`} className="w-full block">Edit</Link>
                                                     </div>
                                                     {/* </DropdownMenuItem> */}

@@ -35,7 +35,7 @@ export default async function Home() {
           <section className='flex gap-5 flex-col w-5/6 mx-auto '>
             {
               posts.map((post:any, i:number) => (
-                  <Card key={i} className="hover:bg-muted/20 active:bg-muted/50">
+                  <Card key={i} className="hover:bg-muted/20 active:bg-muted/30">
                     <CardHeader>
                       <CardTitle>
                         {post.header}
@@ -63,7 +63,7 @@ export default async function Home() {
             {
               posts.map( (post:any, i:number) => (
                 post.isPublic ?
-                  <Card key={i} className="hover:bg-muted/20 active:bg-muted/50">
+                  <Card key={i} className="hover:bg-muted/20 active:bg-muted/30">
                     <CardHeader>
                       <CardTitle>{post.header}</CardTitle>
                       <CardDescription>

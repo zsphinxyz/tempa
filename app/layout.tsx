@@ -30,8 +30,8 @@ export default function RootLayout({
                 <Nav />
                 {children}
                 <Toaster />
-                <footer className="w-full py-1 text-center text-foreground bg-muted-foreground/10 mt-5">
-                  &copy;2024 by <a href="https://linktr.ee/zsphinx" className='text-blue-500 underline'>zsphinx</a>
+                <footer className="w-full py-1 text-center text-muted-foreground bg-muted-foreground/5 mt-5">
+                  &copy;2024 by <a href="https://linktr.ee/zsphinx" target='_blank' className='text-blue-500 underline'>zsphinx</a>
                 </footer>
             </ThemeProvider>
           </FirebaseProvider>

@@ -1,7 +1,6 @@
-import Table from '@/components/FormTable'
+import FormTable from '@/components/FormTable'
 import { authOptions } from '@/option'
 import { getServerSession } from 'next-auth'
-import Image from 'next/image'
 import React, { Suspense } from 'react'
 
 const User = async ({params}:any) => {
@@ -19,7 +18,7 @@ const User = async ({params}:any) => {
               </div>
             </header> */}
             
-            <Table session={session} />
+            <FormTable session={session} />
         </section>
       </Suspense>
     )

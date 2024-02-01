@@ -66,10 +66,10 @@ export default function CreateForm({session}:any) {
 
         <CardContent>
             <Label htmlFor="header">Header</Label>
-            <Input placeholder="Enter your Header..." id="header"  autoFocus={true} className="mb-5" onChange={(e) => setPost( pre => ({...pre, header:e.target.value}) ) } />
+            <Input placeholder="Enter your Header..." id="header"  autoFocus={true} className="mb-5" required onChange={(e) => setPost( pre => ({...pre, header:e.target.value}) ) } />
 
             <Label htmlFor="content">Content</Label>
-            <Textarea placeholder="Enter your Content..." id="content"  onChange={ e => setPost( pre => ({...pre, desc: e.target.value}) ) }/>
+            <Textarea placeholder="Enter your Content..." id="content" required onChange={ e => setPost( pre => ({...pre, desc: e.target.value}) ) }/>
 
             <div className="flex items-center mt-5 gap-2">
                 <Input type="checkbox" id="public" onChange={(e) => setPost( pre => ({...pre, isPublic: e.target.checked}) )} className="w-4 h-4"/>
