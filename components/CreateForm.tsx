@@ -59,10 +59,9 @@ export default function CreateForm({session}:any) {
     
     return(
         <Card className="w-9/12 mx-auto">
-
         <CardHeader>
             <CardTitle>Post it here</CardTitle>
-            <CardDescription>Your post Description</CardDescription>
+            <CardDescription>Enter your Post header and Post Content</CardDescription>
         </CardHeader>
 
         <CardContent>
