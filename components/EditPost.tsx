@@ -17,6 +17,7 @@ import { db } from "@/firebase";
 import { useState } from "react";
 import { DocumentData } from "firebase-admin/firestore";
 import { useRouter } from "next/navigation";
+import { useToast } from "./ui/use-toast";
 
 // @ts-ignore 
 export default function EditPost({id, header, desc, isPublic}) {
@@ -29,11 +30,12 @@ export default function EditPost({id, header, desc, isPublic}) {
         createdAt: Timestamp.now(),
     })
     const router = useRouter()
+    const {toast} = useToast()
     
     async function SaveToDb() {
         try {
             await setDoc(doc(db, "posts", id), post, {merge: true});
-            router.refresh();
+
         } catch (e) {
             console.error("Error adding document: ", e);
         }
@@ -42,6 +44,10 @@ export default function EditPost({id, header, desc, isPublic}) {
     const handleSubmit = () => {
         SaveToDb()
         router.push('/profile')
+        toast({
+            title: 'Updated Seccessfully',
+            description: `Your post can be seen by ${post.isPublic ? 'anyone' : 'our users'}`
+        })
     }
 
     return(

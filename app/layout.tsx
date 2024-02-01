@@ -4,6 +4,7 @@ import ClientProvider from '../components/ClientProvider'
 import Nav from '../components/Nav'
 import FirebaseProvider from '../components/FirebaseProvider'
 import { ThemeProvider } from '@/components/ThemeProvider'
+import { Toaster } from '@/components/ui/toaster'
 
 export const metadata: Metadata = {
   title: 'Tempa',
@@ -28,6 +29,7 @@ export default function RootLayout({
             >
                 <Nav />
                 {children}
+                <Toaster />
             </ThemeProvider>
           </FirebaseProvider>
         </body>

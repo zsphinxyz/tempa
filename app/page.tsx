@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/card"
 import { FaGlobeAmericas } from 'react-icons/fa'
 import { MdPeople } from 'react-icons/md'
+import { Suspense } from 'react'
+import { Skeleton } from '@/components/ui/skeleton'
 
 
 export default async function Home() {
@@ -26,10 +28,10 @@ export default async function Home() {
 
   return (
     <main>
+      <Suspense fallback={<Skeleton className="h-12 w-12 rounded-full" />}>
       {
         session ? 
         <>
-
           <section className='flex gap-5 flex-col w-5/6 mx-auto '>
             {
               posts.map((post:any, i:number) => (
@@ -53,7 +55,6 @@ export default async function Home() {
               ))
             }
           </section>
-
         </>
         :
         <>
@@ -84,6 +85,7 @@ export default async function Home() {
           </section>
         </>
       }
+      </Suspense>
     </main>
   )
 }

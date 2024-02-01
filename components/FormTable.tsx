@@ -43,6 +43,7 @@ import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 import { DocumentData } from "firebase-admin/firestore";
 import Link from "next/link";
+import { useToast } from "./ui/use-toast";
 
 export default function FormTable({session}:{session:Session}) {
     const [userData, setUserData] = useState<DocumentData>({
@@ -55,7 +56,7 @@ export default function FormTable({session}:{session:Session}) {
     })
     // , 
     const router = useRouter()
-
+    const {toast} = useToast()
     const [posts, setPosts] = useState<any>()
 
         //get data for posts 
@@ -86,6 +87,10 @@ export default function FormTable({session}:{session:Session}) {
     const handleDbDelete = async (id:string) => {
         await deleteDoc(doc(db, "posts", (id)))
         await getData()
+        toast({
+            title: 'Deleted',
+            description: 'Your post is permanently deleted'
+        })
     }
 
     useEffect( () => {
@@ -154,18 +159,18 @@ export default function FormTable({session}:{session:Session}) {
                                                 <DropdownMenuTrigger>...</DropdownMenuTrigger>
                                                 <DropdownMenuContent>
                                                     {/* <DropdownMenuItem> */}
-                                                    <div className="px-2 text-[14px] hover:bg-muted py-1 rounded-sm mb-2">
-                                                        <Link href={`/edit/${post.id}`}>Edit</Link>
+                                                    <div className="px-2 text-[14px] hover:bg-muted py-1 w-fullrounded-sm mb-2">
+                                                        <Link href={`/edit/${post.id}`} className="w-full block">Edit</Link>
                                                     </div>
                                                     {/* </DropdownMenuItem> */}
                                                     
                                                     {/* <DropdownMenuItem asChild> */}
                                                         <div className="px-2 text-[14px] hover:bg-muted py-1 rounded-sm">
                                                         <AlertDialog>
-                                                            <AlertDialogTrigger>Delete</AlertDialogTrigger>
+                                                            <AlertDialogTrigger  className="w-full text-left">Delete</AlertDialogTrigger>
                                                             <AlertDialogContent>
                                                                 <AlertDialogHeader>
-                                                                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                                                    <AlertDialogTitle>Are you sure to DELETE this post?</AlertDialogTitle>
                                                                     <AlertDialogDescription>
                                                                         This action cannot be undone. This will permanently delete this post
                                                                         and remove from our database.

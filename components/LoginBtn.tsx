@@ -12,30 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
 const LoginBtn = ({session, className}:{session:Session | null, className?:string}) => {
-  const [profileClick, setProfileClick] = useState(false);
   const router = useRouter();
-
-  /*
-  
-  useEffect(()=>{
-    const saveInfo = async () => {
-      try {
-        await setDoc(doc(db, 'newUser', 'soeThiha'), {name:'thiha',age:22,male:true})
-        const docRef = await addDoc(collection(db, 'users'), {
-          name: session?.user?.name,
-          email: session?.user?.email,
-        })
-        console.log(docRef.id) 
-      } catch (error) {
-        console.error(error)
-      }
-    }
-
-    saveInfo();
-  }, [])
-
-  */
-
   const login = () => {
       signIn();
   }
@@ -73,11 +50,13 @@ const LoginBtn = ({session, className}:{session:Session | null, className?:strin
                   <DropdownMenuSeparator />
 
                   <DropdownMenuGroup  className="space-y-3 cursor-default">
-                    <DropdownMenuItem><Link href="/profile">Profile</Link></DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link href="/profile" className="w-full">Profile</Link>
+                    </DropdownMenuItem>
                     <DropdownMenuItem disabled><Link href="#">About</Link></DropdownMenuItem>
                     <DropdownMenuItem disabled><Link href="#">Setting</Link></DropdownMenuItem>
                     <DropdownMenuItem>
-                    <Link href="/" onClick={()=> logout()}>Log Out</Link>
+                    <Link href="/" onClick={()=> logout()} className="w-full">Log Out</Link>
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
               </DropdownMenuContent>

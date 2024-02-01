@@ -40,6 +40,8 @@ import { db } from "@/firebase"
 import { useRouter } from "next/navigation"
 // import DropImg from "./DropImg"
 import { DocumentData } from "firebase-admin/firestore"
+import { useToast } from "./ui/use-toast"
+import { Skeleton } from "./ui/skeleton"
 
 // ----------------------------------------------------------------------------------------------
 
@@ -57,6 +59,7 @@ const formSchema = z.object({
 export default function EditForm({session, temp}:{session:any, temp:any}) {
     const router = useRouter()
     const [userData, setUserData] = useState<DocumentData>({})
+    const {toast} = useToast();
     // console.log('userdata', userData)
     // console.log('temp', temp)
 
@@ -78,7 +81,10 @@ export default function EditForm({session, temp}:{session:any, temp:any}) {
     // Do something with the form values.
     saveToDb(values)
     router.push('/profile')
-    // console.log(values)
+    toast({
+      title: 'Successful',
+      description: 'Your profile is updated successfully.'
+  })
   }
 
   
@@ -110,7 +116,7 @@ export default function EditForm({session, temp}:{session:any, temp:any}) {
 }
 
   return (
-    <Suspense fallback={<h1 className="text-5xl text-center font-bold">Loading...</h1>}>
+    <Suspense fallback={<Skeleton className="h-12 w-12 rounded-full" />}>
     <section>
       <Card className="max-w-[420px] mx-auto">
         <CardHeader>

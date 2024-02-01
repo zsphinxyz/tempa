@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from "@/components/ui/button"
-import { collection, addDoc, Timestamp, orderBy } from "firebase/firestore"; 
+import { collection, addDoc, Timestamp } from "firebase/firestore"; 
 import {
     Card,
     CardContent,
@@ -17,6 +17,7 @@ import { db } from "@/firebase";
 import { useState } from "react";
 import { DocumentData } from "firebase-admin/firestore";
 import { useRouter } from "next/navigation";
+import { useToast } from "./ui/use-toast";
 
 export default function CreateForm({session}:any) {
     const [post, setPost] = useState<DocumentData>({
@@ -29,7 +30,8 @@ export default function CreateForm({session}:any) {
         bymail: session.user.email,
         createdAt: Timestamp.now(),
     })
-    const router = useRouter()
+    const router = useRouter();
+    const {toast} = useToast();
 
     async function SaveToDb() {
         try {
@@ -37,12 +39,21 @@ export default function CreateForm({session}:any) {
         //   console.log("Document written with ID: ", docRef.id);
         } catch (e) {
           console.error("Error adding document: ", e);
+          toast({
+            variant: 'destructive',
+            title: 'Failed',
+            description: 'Something went wrong!'
+        })
         }
     }
 
     const handleSubmit = () => {
         SaveToDb()
         router.push('/profile')
+        toast({
+            title: 'Successful',
+            description: `Your post can be seen by ${post.isPublic ? 'anyone' : 'our users'}`
+        })
     }
 
     

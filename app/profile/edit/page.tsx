@@ -1,8 +1,10 @@
 import EditForm from "@/components/EditForm";
+import { Skeleton } from "@/components/ui/skeleton";
 import { db } from "@/firebase";
 import { authOptions } from "@/option";
 import { doc, getDoc } from "firebase/firestore";
 import { getServerSession } from "next-auth";
+import { Suspense } from "react";
 
 export default async function Edit() {
 
@@ -28,6 +30,8 @@ export default async function Edit() {
   // console.log(tempData)
 
   return(
-    <EditForm session={session} temp={tempData}/>
+    <Suspense fallback={<Skeleton className="h-12 w-12 rounded-full" />}>
+      <EditForm session={session} temp={tempData}/>
+    </Suspense>
   )
 }
