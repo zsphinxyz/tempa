@@ -15,6 +15,7 @@ import { FaGlobeAmericas } from 'react-icons/fa'
 import { MdPeople } from 'react-icons/md'
 import { Suspense } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
+import { revalidatePath } from 'next/cache'
 
 
 export default async function Home() {
@@ -25,6 +26,8 @@ export default async function Home() {
   querySnapshot.forEach( (doc) => {
     posts.push(doc.data())
   })
+
+  revalidatePath('/')
 
   return (
     <main>

@@ -8,7 +8,7 @@ import { ModeToggle } from "./ModeToggle";
 const Nav = async() => {
   const session = await getServerSession(authOptions)
     return(
-        <nav className="bg-color1 h-16 flex items-center justify-between border-b border-muted ">
+        <nav className="bg-color1 h-16 flex items-center justify-between border-b border-muted mb-2 ">
             <Link href='/' className="flex items-center">
                 <SiTemporal className="text-4xl font-extrabold text-foreground ml-10" /> 
                 <h1 className="text-foreground text-3xl font-mono font-bold">Tempa</h1>
