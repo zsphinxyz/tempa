@@ -68,7 +68,6 @@ export default function FormTable({session}:{session:Session}) {
         })
         setPosts(posts)
     }
-    console.log(posts)
 
         // update data for user
     const updataData = async () => {
@@ -76,7 +75,6 @@ export default function FormTable({session}:{session:Session}) {
         const docSnap = await getDoc(docRef)
 
         if (docSnap.exists()) {
-            // console.log("Document data:", docSnap.data());
             setUserData(docSnap.data())
           } else {
             // docSnap.data() will be undefined in this case
@@ -204,8 +202,8 @@ export default function FormTable({session}:{session:Session}) {
                     }   
                 </CardContent>
 
-                <CardFooter className="">
-                        {/* <Button variant="default" onClick={() => router.push('/profile/edit')}>Edit</Button> */}
+                <CardFooter className="text-muted-foreground/50 text-center w-full block select-none text-sm">
+                    Your Posts end here...
                 </CardFooter>
             </Card>
 
