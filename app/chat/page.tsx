@@ -1,13 +1,13 @@
-import { Button } from "@/components/ui/button";
 import { db } from "@/firebase";
-import { doc, setDoc, Timestamp, startAt, query, collection, getDocs } from "firebase/firestore";
+import { doc, setDoc, collection, getDocs } from "firebase/firestore";
 import { revalidatePath } from "next/cache";
+
+import ChatForm from "./form";
 
 type msgData = {
     atDate: string;
     msg: string;
 }
-
 
 export default async function page() {
 
@@ -37,7 +37,7 @@ export default async function page() {
                 return(
                 <div key={i.atDate} className="flex items-center gap-2">
                     <p className="bg-background/80 block h-fit w-fit px-3 py-1 rounded-full hover:bg-background/50">{i.msg}</p>
-                    <span className="text-xs text-muted-foreground pointer-events-none select-none">{formattedDate.getDate().toString()}/{formattedDate.getMonth().toLocaleString()}/{formattedDate.getFullYear().toString()}</span>
+                    <span className="text-xs text-muted-foreground/50 pointer-events-none select-none">{formattedDate.getDate().toString()}/{formattedDate.getMonth()+1}/{formattedDate.getFullYear().toString()}</span>
                 </div>
             )})
         }
@@ -45,14 +45,10 @@ export default async function page() {
        </section>
 
        <div className="w-11/12 mx-auto flex items-center">
-
-        <form action={formAction} className="flex items-center w-full gap-2">
-            <input name="msg" placeholder="Enter your text..." className="block w-full p-2 pl-4 h-10 rounded-full mt-2 " autoFocus   />
-            <Button type="submit">↗️</Button> 
-        </form>
-
+            <ChatForm formAction={formAction} />
        </div>
 
     </main>
   )
 }
+
