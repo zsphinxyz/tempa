@@ -26,6 +26,7 @@ export default async function page() {
         dataArray = [...dataArray, doc.data()]
     })
 
+    let date: Date = new Date();
 
   return (
     <main className="min-h-[85vh] flex justify-between flex-col">
@@ -33,13 +34,29 @@ export default async function page() {
         
         {
             dataArray.map( (i:msgData) => {
-                const formattedDate = new Date(parseInt(i.atDate))
+
+                let dbDate =  new Date(parseInt(i.atDate));
+                let isDate = false;
+
+                if(date.getDate() == dbDate.getDate()) {
+                    isDate = false
+                }
+                else{
+                    isDate = true
+                    date = dbDate;
+                }
+
                 return(
-                <div key={i.atDate} className="flex items-center gap-2">
-                    <p className="bg-background/80 block h-fit w-fit px-3 py-1 rounded-full hover:bg-background/50">{i.msg}</p>
-                    <span className="text-xs text-muted-foreground/50 pointer-events-none select-none">{formattedDate.getDate().toString()}/{formattedDate.getMonth()+1}/{formattedDate.getFullYear().toString()}</span>
+                <div key={i.atDate} className="space-y-1">
+                    { isDate && 
+                        <p className="text-center text-xs text-muted-foreground/50 pointer-events-none select-none">{date.toLocaleDateString('en-us', {weekday: "short"})} {date.getDate()}/{date.getMonth()+1}/{date.getFullYear()} </p>
+                    }
+                    <p className="bg-background/80 block h-fit w-fit px-3 py-1 rounded-full hover:bg-background/50 select-none">{i.msg}</p>
+                    
+                    {/* <span className="text-xs text-muted-foreground/50 pointer-events-none select-none">{formattedDate.getDate().toString()}/{formattedDate.getMonth()+1}/{formattedDate.getFullYear().toString()}</span> */}
                 </div>
-            )})
+            )
+        })
         }
 
        </section>
